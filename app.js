@@ -2,7 +2,7 @@ import "dotenv/config";
 import express from "express";
 import session from "express-session";
 import passport from "passport";
-import { Strategy as LocalStrategy } from "passport-local";
+import { Strategy } from "passport-local";
 
 const app = express();
 
