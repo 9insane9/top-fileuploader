@@ -22,7 +22,7 @@ app.get("/", async (req, res) => {
   res.send("hello world");
 });
 
-app.use("/user", userRouter);
+app.use("/users", userRouter);
 
 app.listen(3000, (error) => {
   if (error) {
