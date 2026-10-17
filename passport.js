@@ -1,25 +1,42 @@
 import passport from "passport";
 import { Strategy } from "passport-local";
 import { prisma } from "./lib/prisma.js";
+import { validatePassword } from "./utils/password.js";
 
-passport.use(
-  new Strategy(async (username, password, done) => {
-    try {
-      const { rows } = await pool.query(
-        "SELECT * FROM users WHERE username = $1",
-        [username],
-      );
-      const user = rows[0];
+const verifyCallback = async (username, password, done) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { username: username },
+    });
+    if (!user) return done(null, false);
 
-      if (!user) {
-        return done(null, false, { message: "Incorrect username" });
-      }
-      if (user.password !== password) {
-        return done(null, false, { message: "Incorrect password" });
-      }
-      return done(null, user);
-    } catch (err) {
-      return done(err);
-    }
-  }),
-);
+    const isValid = await validatePassword(password, user.passwordHash);
+    return isValid ? done(null, user) : done(null, false);
+  } catch (err) {
+    return done(err);
+  }
+};
+
+const stategy = new Strategy(verifyCallback);
+
+passport.use(stategy);
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+    done(null, user);
+  } catch (err) {
+    done(err);
+  }
+});
+
+export default passport;
