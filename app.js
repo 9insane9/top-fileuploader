@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import session from "express-session";
 import passport from "./passport.js";
+import userRouter from "./routes/user.js";
 
 const app = express();
 
@@ -20,6 +21,8 @@ app.use(express.json());
 app.get("/", async (req, res) => {
   res.send("hello world");
 });
+
+app.use("/user", userRouter);
 
 app.listen(3000, (error) => {
   if (error) {

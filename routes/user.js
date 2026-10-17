@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { prisma } from "../lib/prisma.js";
-import { generateHash } from "../utils/password";
+import { generateHash } from "../utils/password.js";
 
 const router = Router();
 
