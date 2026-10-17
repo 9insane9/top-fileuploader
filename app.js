@@ -1,0 +1,30 @@
+import "dotenv/config";
+import express from "express";
+import session from "express-session";
+import passport from "passport";
+import { Strategy as LocalStrategy } from "passport-local";
+
+const app = express();
+
+app.use(
+  session({
+    secret: `${process.env.SECRET}`,
+    resave: false,
+    saveUninitialized: false,
+  }),
+);
+
+app.use(passport.session());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+app.get("/", async (req, res) => {
+  res.send("hello world");
+});
+
+app.listen(3000, (error) => {
+  if (error) {
+    throw error;
+  }
+  console.log("app listening on port 3000!");
+});
