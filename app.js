@@ -1,18 +1,12 @@
 import "dotenv/config";
 import express from "express";
-import session from "express-session";
+import { session } from "./lib/prisma.js";
 import passport from "./passport.js";
 import userRouter from "./routes/user.js";
 
 const app = express();
 
-app.use(
-  session({
-    secret: `${process.env.SECRET}`,
-    resave: false,
-    saveUninitialized: false,
-  }),
-);
+app.use(session);
 
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
