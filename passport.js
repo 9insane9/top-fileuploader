@@ -17,9 +17,9 @@ const verifyCallback = async (username, password, done) => {
   }
 };
 
-const stategy = new Strategy(verifyCallback);
+const strategy = new Strategy(verifyCallback);
 
-passport.use(stategy);
+passport.use(strategy);
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -29,7 +29,7 @@ passport.deserializeUser(async (id, done) => {
   try {
     const user = await prisma.user.findUnique({
       where: {
-        id: id,
+        id,
       },
     });
 

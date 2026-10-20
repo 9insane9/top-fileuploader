@@ -7,8 +7,9 @@ import userRouter from "./routes/user.js";
 const app = express();
 
 app.use(session);
-
+app.use(passport.initialize());
 app.use(passport.session());
+
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
