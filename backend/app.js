@@ -19,9 +19,9 @@ app.get("/", async (req, res) => {
 
 app.use("/users", userRouter);
 
-app.listen(3000, (error) => {
+app.listen(process.env.PORT, (error) => {
   if (error) {
     throw error;
   }
-  console.log("app listening on port 3000!");
+  console.log(`App listening on port ${process.env.PORT}!`);
 });
