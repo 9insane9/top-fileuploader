@@ -13,11 +13,11 @@ app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-app.get("/", async (req, res) => {
+app.get("/api/", async (req, res) => {
   res.send("hello world");
 });
 
-app.use("/users", userRouter);
+app.use("/api/users", userRouter);
 
 app.listen(process.env.PORT, (error) => {
   if (error) {

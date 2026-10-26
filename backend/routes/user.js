@@ -5,6 +5,17 @@ import passport from "../passport.js";
 
 const router = Router();
 
+router.get("/me", (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.sendStatus(401);
+  }
+
+  return res.json({
+    id: req.user.id,
+    username: req.user.username,
+  });
+});
+
 router.post("/register", async (req, res) => {
   const hash = await generateHash(req.body.password);
 
